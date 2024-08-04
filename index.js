@@ -2,6 +2,8 @@ const http = require('node:http');
 const hostname = '127.0.0.1';
 const port = 3000;
 const express = require('express');
+const mongoose = require('mongoose');
+
 
 var app = express();
 
@@ -25,8 +27,13 @@ app.get('/', (req, res) => {
 
 //task 2 - name customized URL.
 
-
+// user/create - POST
 app.get('/user', userRoutes);
+
+mongoose.connect("mongodb+srv://alihaider11040:<password>@mern.jv8z27i.mongodb.net/", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
 
 app.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}`);

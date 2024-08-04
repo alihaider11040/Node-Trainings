@@ -1,4 +1,14 @@
+const User = require('../Models/userModel');
 
+
+exports.CreateUser = async function (req,res) {
+
+    const {username , email}= req.body;
+    const user = new User({
+        username,
+        email
+    })
+}
 
 exports.getUser = async function (req,res) {
     
