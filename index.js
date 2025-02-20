@@ -1,42 +1,34 @@
-const http = require('node:http');
-const hostname = '127.0.0.1';
-const port = 3000;
 const express = require('express');
-const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const userRoutes = require('./routes/user.routes');
+const projectRoutes = require('./routes/project.routes');
 
+const bd = require('./config/db')
 
-var app = express();
+// Load environment variables from .env file
+dotenv.config();
 
-const userRoutes = require('./Routes/user.routes');
-// const server = http.createServer((req, res) => {
-//   res.statusCode = 200;
-//   res.setHeader('Content-Type', 'text/plain');
-//   res.end('Hello, World!\n');
-// });
-//dummy 
+// Create Express app
+const app = express();
 
-//task 1 - name customized URL.
-// localhost:3000/Ali
-app.get('/Ali', (req, res) => {
-  res.send('Hello Ali!')
-})
-// localhost:3000/user
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+// Middleware to parse JSON and URL-encoded data
+app.use(express.json()); // For JSON payloads
+app.use(express.urlencoded({ extended: true })); // For URL-encoded form data
 
-//task 2 - name customized URL.
+// Define routes
+app.use('/user', userRoutes);
+app.use('/project', projectRoutes);
 
-// user/create - POST
-app.get('/user', userRoutes);
-
-mongoose.connect("mongodb+srv://alihaider11040:<password>@mern.jv8z27i.mongodb.net/", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
+// Global error handling middleware (optional)
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something went wrong!');
 });
 
-app.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}`);
+// Start server
+const PORT = process.env.PORT || 3000; // Use .env PORT or default to 3000
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
 
 module.exports = app;

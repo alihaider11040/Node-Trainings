@@ -3,10 +3,10 @@ const router = express.Router();
 const userController = require('../Controllers/user.controller');
 
 
-router.get('/contact', userController.getContact)
-router.get('/about',userController.getAbout )
-router.get('/services', userController.getServices)
-router.post('/create', userController.CreateUser)
+router.post('/login', userController.getContact)
+router.post('/signUp',userController.getAbout )
+router.put('/updateProfile', userController.getServices)
+
 
 
 
