@@ -1,23 +1,25 @@
-const User = require('../Models/userModel');
+import userService from '../services/user-service'
 
 
-exports.CreateUser = async function (req,res) {
+import {IUser} from '../interfaces/user'
 
-    const {username , email}= req.body;
-    const user = new User({
-        username,
-        email
-    })
+
+class userController{
+    async signUp(req , res , next){
+        const {email , name , password , role} = req.body
+        const userInterface = {
+            email,
+            name,
+            password,
+            role
+
+        }
+
+        const newUser = await userService.signUp(userInterface)
+        if(newUser) {
+            res.sta
+        }
+
+    }
+
 }
-
-exports.getUser = async function (req,res) {
-    
-} 
-
-exports.getContact = async function (req,res) {
-
-}
-
-exports.getAbout = async function (req,res) {}
-
-exports.getServices = async function (req,res) {}

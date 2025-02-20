@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 const userRoutes = require('./routes/user.routes');
 const projectRoutes = require('./routes/project.routes');
 
-const bd = require('./config/db')
+const db = require('./config/db')
 
 // Load environment variables from .env file
 dotenv.config();
@@ -24,6 +24,12 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something went wrong!');
 });
+
+// db.sync().then(()=>{
+//     console.log('Database not synced')
+// }).catch(err =>{
+//     this.console.log('Error in sync', err.message)
+// })
 
 // Start server
 const PORT = process.env.PORT || 3000; // Use .env PORT or default to 3000
