@@ -10,3 +10,13 @@ export interface IUser {
     password: String,
     role : Role
 }
+
+export interface loginDTO{
+  email: String,
+  password: String
+}
+
+export interface loginResponseDTO{
+  email: String,
+  token: String
+}

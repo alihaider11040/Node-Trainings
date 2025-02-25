@@ -1,32 +1,32 @@
-const { Sequelize, DataTypes } = require('sequelize');
+const { DataTypes } = require('sequelize');
+const db = require('../config/db');
 
-import Project from './project'
-import User from './user'
+import Project from './project';
+import User from './user';
 
-
-const Task = sequelize.define('Task', {
-
-  id:{
-    type: DataTypes.NUMBER,
+const Task = db.define('Task', {
+  id: {
+    type: DataTypes.INTEGER, // ✅ Use INTEGER instead of NUMBER
     unique: true,
-    autoIncrement: true
-
+    autoIncrement: true,
+    primaryKey: true
   },
   description: {
     type: DataTypes.STRING,
-    allowNull: false, 
- },
-  attachment:{
+    allowNull: false,
+  },
+  attachment: {
     type: DataTypes.STRING,
- },
-}, 
-{
-  tableName: 'task', 
-  
+  }
+}, {
+  tableName: 'tasks', 
+  timestamps: true
 });
 
-Task.belongsTo(Project)
-Task.hasMany(User)
+Task.belongsTo(Project, { foreignKey: 'projectId', as: 'project' });
 
+Task.belongsToMany(User, { through: 'UserTasks', foreignKey: 'taskId', as: 'users' });
 
-module.exports = Task;
+Task.belongsTo(User, { foreignKey: 'userId', as: 'assignedUser' });
+
+export default Task;

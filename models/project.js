@@ -1,14 +1,12 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize('database', 'username', 'password', {
-  host: 'localhost',
-  dialect: 'mysql' // or 'postgres', 'sqlite', etc.
-});
+const db = require('../config/db')
+
 import Task from './task';
 
-const Project = sequelize.define('Project', {
+const Project = db.define('Project', {
   id: {
     type: DataTypes.INTEGER,
-    primaryKey: true, // Explicitly define as the primary key
+    primaryKey: true, 
     autoIncrement: true,
     allowNull: false,
   },
@@ -21,16 +19,4 @@ const Project = sequelize.define('Project', {
   timestamps: true,
 });
 
-// Define association correctly
-Project.hasMany(Task, { 
-  foreignKey: 'projectId', // Explicit foreign key in Task model
-  as: 'tasks' // Optional alias
-});
-
-// Ensure the Task model has the correct foreign key reference
-Task.belongsTo(Project, { 
-  foreignKey: 'projectId', 
-  as: 'project' // Optional alias
-});
-
-module.exports = Project;
+export default Project

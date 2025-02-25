@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "outDir": "dist",
+    "module": "CommonJS",
+    "target": "ES6",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "rootDir": ".",
+    "allowJs": true           // Add this to allow .js files
+  },
+  "include": [
+    "index.js",              // Include your JS file
+    "services/**/*",
+    "interfaces/**/*"
+  ],
+  "exclude": ["node_modules", "dist"]
+}

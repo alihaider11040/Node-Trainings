@@ -36,10 +36,10 @@ const User = db.define('User', {
 });
 
 // Hash password before creating user
-User.beforeCreate(async (user) => {
-  const salt = await bcrypt.genSalt(10);
-  user.hashedPassword = await bcrypt.hash(user.hashedPassword, salt);
-});
+// User.beforeCreate(async (user) => {
+//   const salt = await bcrypt.genSalt(10);
+//   user.hashedPassword = await bcrypt.hash(user.hashedPassword, salt);
+// });
 
 // Compare password method
 User.prototype.comparePassword = async function (candidatePassword) {

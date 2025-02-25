@@ -16,6 +16,10 @@ app.use(express.json()); // For JSON payloads
 app.use(express.urlencoded({ extended: true })); // For URL-encoded form data
 
 // Define routes
+app.get("/", (req, res) => {
+  res.json({ message: "hello" });
+});
+
 app.use('/user', userRoutes);
 app.use('/project', projectRoutes);
 
@@ -25,11 +29,16 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something went wrong!');
 });
 
-// db.sync().then(()=>{
-//     console.log('Database not synced')
-// }).catch(err =>{
-//     this.console.log('Error in sync', err.message)
-// })
+// Sync models & create tables in MySQL
+db
+  .sync({ alter: true }) // ✅ Creates tables if not exist, updates schema if changed
+  .then(() => {
+    console.log("✅ Database & tables synced successfully!");
+  })
+  .catch((err) => {
+    console.error("❌ Error syncing database:", err);
+  });
+
 
 // Start server
 const PORT = process.env.PORT || 3000; // Use .env PORT or default to 3000
