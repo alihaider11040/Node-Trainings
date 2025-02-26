@@ -2,21 +2,32 @@ const { DataTypes } = require('sequelize');
 const db = require('../config/db');
 
 import Project from './project';
-import User from './user';
+
 
 const Task = db.define('Task', {
   id: {
-    type: DataTypes.INTEGER, // ✅ Use INTEGER instead of NUMBER
+    type: DataTypes.INTEGER, 
     unique: true,
     autoIncrement: true,
     primaryKey: true
+  },
+  title:{
+    type: DataTypes.STRING
   },
   description: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  attachment: {
-    type: DataTypes.STRING,
+  status:{
+    type: DataTypes.ENUM('TODO' ,'PROGRESS', 'COMPLETE'),
+    defaultValue: 'TODO'
+  },
+  priority: {
+    type: DataTypes.ENUM('HIGH', 'MODERATE', 'LOW'),
+    defaultValue: 'LOW'
+  },
+  deadline:{
+    type: DataTypes.DATE
   }
 }, {
   tableName: 'tasks', 
@@ -24,9 +35,7 @@ const Task = db.define('Task', {
 });
 
 Task.belongsTo(Project, { foreignKey: 'projectId', as: 'project' });
-
-Task.belongsToMany(User, { through: 'UserTasks', foreignKey: 'taskId', as: 'users' });
-
-Task.belongsTo(User, { foreignKey: 'userId', as: 'assignedUser' });
-
 export default Task;
+
+
+//Migrations todo

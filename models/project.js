@@ -1,7 +1,8 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const db = require('../config/db')
 
-import Task from './task';
+
+import User from './user';
 
 const Project = db.define('Project', {
   id: {
@@ -13,10 +14,18 @@ const Project = db.define('Project', {
   name: {
     type: DataTypes.STRING,
     allowNull: false,
+  },
+  description: {
+    type: DataTypes.STRING
+  },
+  status:{
+    type: DataTypes.ENUM('TODO' ,'PROGRESS', 'COMPLETE'),
+    defaultValue: 'TODO'
   }
 }, {
   tableName: 'projects',
   timestamps: true,
 });
+
 
 export default Project

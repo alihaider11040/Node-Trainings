@@ -21,6 +21,24 @@ exports.createTask = async (req, res, next) => {
     }
 };
 
+exports.getProjectWithTasks = async (req, res, next) => {
+    try {
+      const { projectId } = req.params;
+      const project = await projectService.getProjectWithTasks(parseInt(projectId));
+  
+      if (!project) {
+        return res.status(404).json({ message: 'Project not found' });
+      }
+  
+      res.status(200).json({ project });
+    } catch (error) {
+      next(error); // Pass error to middleware
+    }
+  };
+
+
+
+
 // Assign a task to a user
 exports.assignTask = async (req, res, next) => {
     try {
@@ -46,10 +64,24 @@ exports.editTask = async (req, res, next) => {
 // Delete a task
 exports.deleteTask = async (req, res, next) => {
     try {
+        console.log(req.params)
+        
         const { taskId } = req.params;
-        await projectService.deleteTask(Number(taskId));
+        console.log(taskId)
+        // await projectService.deleteTask(Number(taskId));
         res.status(200).json({ message: "Task deleted successfully" });
     } catch (error) {
         next(error);
     }
 };
+
+exports.deleteTask = async (req, res, next) => {
+    try {
+        const { projectId } = req.params;
+        await projectService.deleteProject(Number(projectId));
+        res.status(200).json({ message: "Task deleted successfully" });
+    } catch (error) {
+        next(error);
+    }
+};
+

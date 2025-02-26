@@ -13,7 +13,7 @@ const User = db.define('User', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  hashedPassword: {
+  hashed_password: {
     type: DataTypes.STRING,
     allowNull: false,
   },
@@ -26,7 +26,7 @@ const User = db.define('User', {
     },
   },
   role: {
-    type: DataTypes.ENUM('USER', 'ADMIN'),
+    type: DataTypes.ENUM('USER', 'ADMIN', 'MANAGER'),
     allowNull: false,
     defaultValue: 'USER', // Default role
   },
