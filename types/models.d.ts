@@ -17,6 +17,9 @@ export interface IUserInstance extends Model<IUserAttributes, IUserCreationAttri
 export interface IProjectAttributes {
   id: number;
   name: string;
+  description: string;
+  status: 'TODO' | 'PROGRESS'|'COMPLETE'
+
 }
 
 export interface IProjectInstance extends Model<IProjectAttributes>, IProjectAttributes {}

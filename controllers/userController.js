@@ -43,7 +43,6 @@ export const updateUser = async(req,res, next)=>{
     const userObject = {
         name,
         email,
-        password,
         role
     }
     const serviceResponse = await userService.updateUser(userObject)

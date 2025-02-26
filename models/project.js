@@ -2,7 +2,6 @@ const { Sequelize, DataTypes } = require('sequelize');
 const db = require('../config/db')
 
 
-import User from './user';
 
 const Project = db.define('Project', {
   id: {

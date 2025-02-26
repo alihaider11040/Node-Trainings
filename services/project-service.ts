@@ -2,6 +2,7 @@ import Project from "../models/project"
 import Task from "../models/task"
 import User from "../models/user";
 import { IProject, ITask } from '../interfaces/project'; // Import interfaces
+import {} from '../types/models.d'
 
 // Create a new project
 export async function createProject(projectData: IProject): Promise<IProject> {
