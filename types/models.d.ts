@@ -24,10 +24,34 @@ export interface IProjectInstance extends Model<IProjectAttributes>, IProjectAtt
 // **Interface for Task Model**
 export interface ITaskAttributes {
   id: number;
+  title: String;
   description: string;
-  attachment?: string;
+  status: "TODO" |"PROGRESS" | 'COMPLETE';
+  priority: "HIGH" | "MODERATE" | "LOW";
+  deadline : Date;
   projectId: number;
-  userId?: number;
 }
 
 export interface ITaskInstance extends Model<ITaskAttributes>, ITaskAttributes {}
+
+export interface IAssignment {
+    id?: number;
+    userId: number;  // Foreign key reference to User
+    taskId: number;  // Foreign key reference to Task
+    createdAt?: Date;
+    updatedAt?: Date;
+  }
+  
+  export interface IAssignmentInstance extends Model<IAssignment>, IAssignment {}
+
+
+  export interface IAttachment {
+    id?: number;
+    file_name: string;
+    file_url?: string;
+    taskId: number;  // Foreign key reference to Task
+    createdAt?: Date;
+    updatedAt?: Date;
+  }
+  
+  export interface IAttachmentInstance extends Model<IAttachment>, IAttachment {}
