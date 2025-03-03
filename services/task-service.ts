@@ -31,8 +31,10 @@ class TaskService {
   }
 
   // Add an attachment to a task
-  async addAttachment(taskId: number, userId: number, filePath: string) {
-    return await Attachment.create({ taskId, userId, filePath });
+  async addAttachment(taskId: number,filePath: string, file_name:string) {
+    const task = await Task.findByPk(taskId)
+    if(!task) throw new Error("Task not found");
+    return await Attachment.create({ "taskId":taskId,"file_url": filePath , "file_name" : file_name});
   }
 
   // Delete an attachment

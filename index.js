@@ -3,7 +3,8 @@ const dotenv = require('dotenv');
 const userRoutes = require('./routes/user.routes');
 const projectRoutes = require('./routes/project.routes');
 
-const db = require('./config/db')
+const db = require('./config/db');
+const userAuth = require('./middlewares/userAuth');
 
 // Load environment variables from .env file
 dotenv.config();
@@ -21,7 +22,7 @@ app.get("/", (req, res) => {
 });
 
 app.use('/user', userRoutes);
-app.use('/project', projectRoutes);
+app.use('/project',userAuth, projectRoutes);
 
 // Global error handling middleware (optional)
 app.use((err, req, res, next) => {

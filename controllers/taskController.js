@@ -39,9 +39,8 @@ exports.deleteComment = async (req, res) => {
 exports.addAttachment = async (req, res)=> {
   try {
     const { taskId } = req.params;
-    const { userId } = req.body;
-    const filePath = req.file.path; // Assuming file is uploaded via multer
-    const attachment = await taskService.addAttachment(Number(taskId), Number(userId), filePath);
+    const { userId,file_url, file_name } = req.body;
+    const attachment = await taskService.addAttachment(Number(taskId), file_url, file_name);
     res.json({ success: true, attachment });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
@@ -52,7 +51,7 @@ exports.addAttachment = async (req, res)=> {
 exports.removeAttachment= async(req, res) =>{
   try {
     const { attachmentId } = req.params;
-    await taskService.removeAttachment(Number(attachmentId));
+    await taskService.deleteAttachment(Number(attachmentId));
     res.json({ success: true, message: "Attachment removed successfully" });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });

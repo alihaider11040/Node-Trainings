@@ -3,6 +3,10 @@ const {check, param} = require('express-validator')
 const router = express.Router();
 
 const validate = require('../middlewares/validate');
+const userAuth = require('../middlewares/userAuth');
+const adminAuth = require('../middlewares/adminAuth');
+
+
 const projectController = require('../controllers/projectController');
 const taskController = require('../controllers/taskController')
 
@@ -10,7 +14,7 @@ const taskController = require('../controllers/taskController')
 router.post('/create',[
     check('name').notEmpty().withMessage('Project Name is Required'),
     check('description').notEmpty().withMessage('Project description is Required')
-    ], validate,
+    ], validate, adminAuth,
     projectController.createProject
 )
 
@@ -22,7 +26,7 @@ router.post('/createTask/:projectId',
     check('deadline').notEmpty().withMessage('Dealine required!'),
     check('deadline').isDate().withMessage('Enter a valid date'),
 ],
-validate, projectController.createTask
+validate, adminAuth ,projectController.createTask
 )
 
 
@@ -45,7 +49,7 @@ router.post('/assignTask/:taskId/:userId',[
 
     param('taskId').isInt().withMessage('taskId must be an integer'),
     param('userId').isInt().withMessage('userId must be an integer'),
-],   validate,
+],   validate, adminAuth,
      projectController.assignTask
     
     
@@ -70,7 +74,6 @@ router.put(
     projectController.updateTask
   );
 
-//-----------------------yet to test ------------------------//
 
 router.delete('/deleteTask/:taskId', [
     param('taskId').isInt().withMessage('taskId must be an integer')],
@@ -79,15 +82,13 @@ router.delete('/deleteTask/:taskId', [
 )
 
 
-router.delete('/deleteProject/:projectId',
-    param('projectId').isInt().withMessage('projectId must be an integer'),
+router.delete('/deleteProject/:projectId',[
+    param('projectId').isInt().withMessage('projectId must be an integer')],
+    validate,
 
-     projectController.deleteTask
+     projectController.deleteProject
     
     )
-
-
-//-------------------------------end --------------------------------//
 
 // Add a comment
 router.post(
@@ -120,5 +121,25 @@ router.delete(
 );
 
 
+router.post(
+  '/task/:taskId/attachments',
+  [
+    param('taskId').isInt().withMessage('Invalid Task ID'),
+    check('file_url').notEmpty().withMessage('File URL is required'),
+    check('file_name').notEmpty().withMessage('File name is required'),
+  ],
+  validate,
+  taskController.addAttachment
+);
+
+// Delete attachment
+router.delete(
+  '/attachments/:attachmentId',
+  [
+    param('attachmentId').isInt().withMessage('Invalid Attachment ID'),
+  ],
+  validate,
+  taskController.removeAttachment
+);
 
 module.exports = router

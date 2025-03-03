@@ -86,14 +86,14 @@ exports.deleteTask = async (request, res, next) => {
         
         const { taskId } = request.params;
         console.log(taskId)
-        // await projectService.deleteTask(Number(taskId));
+        await projectService.deleteTask(Number(taskId));
         res.status(200).json({ message: "Task deleted successfully" });
     } catch (error) {
         next(error);
     }
 };
 
-exports.deleteTask = async (request, res, next) => {
+exports.deleteProject = async (request, res, next) => {
     try {
         const { projectId } = request.params;
         await projectService.deleteProject(Number(projectId));

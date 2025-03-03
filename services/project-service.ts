@@ -84,11 +84,10 @@ class ProjectService {
 
   // Delete a task
   async deleteTask(taskId: number): Promise<boolean> {
-    const task = await Task.findByPk(taskId);
-    if (!task) throw new Error("Task not found");
-
-    await task.destroy();
-    return true;
+    const task = await Task.destroy({
+      where:{id: taskId}
+    });
+    return task > 0
   }
 
   // Delete a project
