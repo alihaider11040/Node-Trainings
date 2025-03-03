@@ -1,4 +1,4 @@
-const projectService = require("../services/project-service").default;
+const projectService = require("../services/project-service").de;
 
 // Create a new project
 exports.createProject = async (req, res, next) => {

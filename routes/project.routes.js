@@ -1,26 +1,27 @@
 const express = require('express');
 const {check, param} = require('express-validator')
 const router = express.Router();
+
+const validate = require('../middlewares/validate');
 const projectController = require('../controllers/projectController');
 
 
-router.post('/create',
+router.post('/create',[
     check('name').notEmpty().withMessage('Project Name is Required'),
-    check('description').notEmpty().withMessage('Project description is Required'),
-    check('status').notEmpty().withMessage('Project status is Required'),
-
+    check('description').notEmpty().withMessage('Project description is Required')
+    ], validate,
     projectController.createProject
 )
 
 
 router.post('/createTask/:projectId',
+[
     check('title').notEmpty().withMessage('Task title is Required'),
     check('description').notEmpty().withMessage('task description is Required'),
-    check('status').notEmpty().withMessage('task status is Required'),
     check('deadline').notEmpty().withMessage('Dealine required!'),
     check('deadline').isDate().withMessage('Enter a valid date'),
-
-    projectController.createTask
+],
+validate, projectController.createTask
 )
 
 

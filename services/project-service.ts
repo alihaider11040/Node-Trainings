@@ -7,8 +7,8 @@ class ProjectService {
   // Create a new project
   async createProject(projectData: IProjectAttributes): Promise<IProjectAttributes> {
     const newProject = await Project.create({
-      id: projectData.id,
       name: projectData.name,
+      "description" : projectData.description
     });
     return newProject.toJSON() as IProjectAttributes;
   }

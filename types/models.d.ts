@@ -15,10 +15,10 @@ export interface IUserInstance extends Model<IUserAttributes, IUserCreationAttri
 
 // **Interface for Project Model**
 export interface IProjectAttributes {
-  id: number;
+  id?: number;
   name: string;
   description: string;
-  status: 'TODO' | 'PROGRESS'|'COMPLETE'
+  status?: 'TODO' | 'PROGRESS'|'COMPLETE'
 
 }
 
