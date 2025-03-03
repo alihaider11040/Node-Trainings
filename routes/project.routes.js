@@ -25,29 +25,55 @@ validate, projectController.createTask
 )
 
 
-router.get('/:projectId',
+router.get('/:projectId',[
     param("projectId").isInt().withMessage('Enter a valid projectId!'), 
+], validate,
     projectController.getProjectWithTasks
 )
 
-router.post('/:taskId/:userId',
+router.get("/user/:userId", [
+    param("userId").isInt().withMessage('Enter a valid projectId!'), 
+], validate,
+projectController.getTasksByUser);
+
+
+
+
+
+router.post('/assignTask/:taskId/:userId',[
 
     param('taskId').isInt().withMessage('taskId must be an integer'),
     param('userId').isInt().withMessage('userId must be an integer'),
+],   validate,
      projectController.assignTask
     
     
 )
+router.put(
+    '/updateTask/:taskId',
+    [
+      param("taskId").isInt().withMessage('Invalid taskId, must be an integer'),
+      check('title').optional().notEmpty().withMessage('Title cannot be empty'),
+      check('description').optional().notEmpty().withMessage('Description cannot be empty'),
+      check('status')
+        .optional()
+        .isIn(['TODO', 'PROGRESS', 'COMPLETE'])
+        .withMessage('Invalid status'),
+      check('priority')
+        .optional()
+        .isIn(['HIGH', 'MODERATE', 'LOW'])
+        .withMessage('Invalid priority'),
+      check('deadline').optional().isISO8601().withMessage('Invalid date format'),
+    ],
+    validate,
+    projectController.updateTask
+  );
 
-router.put('/updateTask/:taskId',
-    param('taskId').isInt().withMessage('taskId must be an integer'),
-    
-    projectController.editTask
-)
 
-router.delete('/deleteTask/:taskId', 
-    param('taskId').isInt().withMessage('taskId must be an integer'),
 
+router.delete('/deleteTask/:taskId', [
+    param('taskId').isInt().withMessage('taskId must be an integer')],
+    validate,
     projectController.deleteTask
 )
 

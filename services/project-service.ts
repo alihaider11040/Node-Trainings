@@ -1,7 +1,9 @@
 import Project from "../models/project";
 import Task from "../models/task";
 import User from "../models/user";
-import { IProjectAttributes, ITaskAttributes } from "../types/models.d";
+import Assignment from "../models/assignment";
+
+import { IAssignment, IProjectAttributes, ITaskAttributes, ITaskInstance } from "../types/models.d";
 
 class ProjectService {
   // Create a new project
@@ -26,12 +28,9 @@ class ProjectService {
   async getProjectWithTasks(projectId: number) {
     try {
       const tasks = await Task.findAll({
-        include: [
-          {
-            model: Project,
-            as: "project",
-          },
-        ],
+        where:{
+          projectId
+        }
       });
 
       if (!tasks) {
@@ -45,20 +44,38 @@ class ProjectService {
   }
 
   // Assign a task to a user
-  async assignTask(taskId: number, userId: number): Promise<ITaskAttributes> {
+  async assignTask(taskId: number, userId: number): Promise<IAssignment> {
     const task = await Task.findByPk(taskId);
     if (!task) throw new Error("Task not found");
 
     const user = await User.findByPk(userId);
     if (!user) throw new Error("User not found");
 
-    (task as any).userId = userId;
-    await task.save();
-    return task.toJSON() as ITaskAttributes;
+    const taskassignment = await Assignment.create({
+      userId : (user as any).id,
+      taskId : (task as any).id
+    });
+    return taskassignment.toJSON() as IAssignment;
   }
 
+
+  async getTasksByUser(userId: number): Promise<ITaskInstance[]> {
+    const user = await User.findByPk(userId);
+    if (!user) throw new Error("User not found");
+
+    const tasks = await Task.findAll({
+      include: [
+        {
+          model: User,
+          through: { attributes: [] }, // Exclude junction table attributes
+          where: { id: userId },
+        },
+      ],
+    });
+    return tasks.map(task => task.toJSON() as ITaskInstance);
+  }
   // Edit a task
-  async editTask(taskId: number, taskData: Partial<ITaskAttributes>): Promise<ITaskAttributes> {
+  async updateTask(taskId: number, taskData: Partial<ITaskAttributes>): Promise<ITaskAttributes> {
     const task = await Task.findByPk(taskId);
     if (!task) throw new Error("Task not found");
     await task.update(taskData);

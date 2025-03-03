@@ -33,6 +33,8 @@ export interface ITaskAttributes {
   priority: "HIGH" | "MODERATE" | "LOW";
   deadline : Date;
   projectId: number;
+  updatedAt?: Date;
+  createdAt?: Date;
 }
 
 export interface ITaskInstance extends Model<ITaskAttributes>, ITaskAttributes {}
