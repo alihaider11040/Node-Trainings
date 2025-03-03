@@ -1,3 +1,4 @@
+import { Mode } from "fs";
 import { Model, Optional } from "sequelize";
 
 // **Interface for User Model**
@@ -60,3 +61,11 @@ export interface IAssignment {
   }
   
   export interface IAttachmentInstance extends Model<IAttachment>, IAttachment {}
+
+  export interface IComment{
+    id? : number;
+    description: string;
+    userId?: number;
+    taskId?: number;
+  }
+  export interface ICommentInstance extends Model<IComment>, IComment {}

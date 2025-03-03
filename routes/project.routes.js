@@ -4,6 +4,7 @@ const router = express.Router();
 
 const validate = require('../middlewares/validate');
 const projectController = require('../controllers/projectController');
+const taskController = require('../controllers/taskController')
 
 
 router.post('/create',[
@@ -69,7 +70,7 @@ router.put(
     projectController.updateTask
   );
 
-
+//-----------------------yet to test ------------------------//
 
 router.delete('/deleteTask/:taskId', [
     param('taskId').isInt().withMessage('taskId must be an integer')],
@@ -84,6 +85,40 @@ router.delete('/deleteProject/:projectId',
      projectController.deleteTask
     
     )
+
+
+//-------------------------------end --------------------------------//
+
+// Add a comment
+router.post(
+  "/tasks/:taskId/comments",
+  [
+    param("taskId").isInt().withMessage("Invalid Task ID"),
+    check("description").notEmpty().withMessage("Comment cannot be empty"),
+  ],
+  validate,
+  taskController.addComment
+);
+
+// Update a comment
+router.put(
+  "/comments/:commentId",
+  [
+    param("commentId").isInt().withMessage("Invalid Comment ID"),
+    check("description").notEmpty().withMessage("Updated comment cannot be empty"),
+  ],
+  validate,
+  taskController.updateComment
+);
+
+// Delete a comment
+router.delete(
+  "/comments/:commentId",
+  [param("commentId").isInt().withMessage("Invalid Comment ID")],
+  validate,
+  taskController.deleteComment
+);
+
 
 
 module.exports = router
