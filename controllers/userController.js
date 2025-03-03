@@ -1,10 +1,14 @@
-const userService = require( '../services/user-service')
+const userService = require( '../services/user-service').default;
 
 export const signUp = async (request, response, next) => {
     try {
         const { email, name, password, role } = request.body;
 
-        const userInterface = { email, name, password, role };
+        const userInterface = { 
+            email,
+            name,
+            hashed_password:password,
+             role };
 
         const newUser = await userService.signUp(userInterface);
 
@@ -22,24 +26,24 @@ export const signUp = async (request, response, next) => {
     }
 };
 
-export const login = async (req, res , next )=>{
+export const login = async (request, res , next )=>{
     try{
-    const {email , password } = req.body
+    const {email , password } = request.body
     const loginDTO = {email, password}
 
     const loginResponse = await userService.login(loginDTO)
 
-    res.status(200).json({loginResponse}).message('Logged In')
+    res.status(200).json({loginResponse})
 }catch(error){
     next(error)
 
 }
 }
 
-export const updateUser = async(req,res, next)=>{
+export const updateUser = async(request,res, next)=>{
 
     try{
-    const {name , email , password , role} = req.body
+    const {name , email , password , role} = request.body
     const userObject = {
         name,
         email,

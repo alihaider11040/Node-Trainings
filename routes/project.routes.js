@@ -1,5 +1,5 @@
 const express = require('express');
-const {check, params} = require('express-validator')
+const {check, param} = require('express-validator')
 const router = express.Router();
 const projectController = require('../controllers/projectController');
 
@@ -25,34 +25,34 @@ router.post('/createTask/:projectId',
 
 
 router.get('/:projectId',
-    params(projectId).isInt().withMessage('Enter a valid projectId!'), 
+    param("projectId").isInt().withMessage('Enter a valid projectId!'), 
     projectController.getProjectWithTasks
 )
 
 router.post('/:taskId/:userId',
 
-    params('taskId').isInt().withMessage('taskId must be an integer'),
-    params('userId').isInt().withMessage('userId must be an integer'),
+    param('taskId').isInt().withMessage('taskId must be an integer'),
+    param('userId').isInt().withMessage('userId must be an integer'),
      projectController.assignTask
     
     
 )
 
 router.put('/updateTask/:taskId',
-    params('taskId').isInt().withMessage('taskId must be an integer'),
+    param('taskId').isInt().withMessage('taskId must be an integer'),
     
     projectController.editTask
 )
 
 router.delete('/deleteTask/:taskId', 
-    params('taskId').isInt().withMessage('taskId must be an integer'),
+    param('taskId').isInt().withMessage('taskId must be an integer'),
 
     projectController.deleteTask
 )
 
 
 router.delete('/deleteProject/:projectId',
-    params('projectId').isInt().withMessage('projectId must be an integer'),
+    param('projectId').isInt().withMessage('projectId must be an integer'),
 
      projectController.deleteTask
     

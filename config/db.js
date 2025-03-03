@@ -1,6 +1,6 @@
 const { Sequelize } = require('sequelize');
 
-const db = new Sequelize('test', 'root', '123456', {
+const db = new Sequelize('test', 'root', 'Root@1234', {
   host: 'localhost',
   dialect: 'mysql', // or 'postgres', 'sqlite', etc.
   logging: false, // Disable logging for cleaner output

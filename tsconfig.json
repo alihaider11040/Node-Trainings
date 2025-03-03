@@ -1,17 +1,17 @@
 {
   "compilerOptions": {
-    "outDir": "dist",
+    "target": "ESNext",
     "module": "CommonJS",
-    "target": "ES6",
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "Node",
+    "outDir": "dist",
     "rootDir": ".",
-    "allowJs": true           // Add this to allow .js files
+    "allowJs": true,
+    "checkJs": false,
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
   },
-  "include": [
-    "index.js",              // Include your JS file
-    "services/**/*",
-    "interfaces/**/*"
-  ],
+  "include": ["controllers", "middleware", "models", "routes", "services", "types", "interface", "index.js"],
   "exclude": ["node_modules", "dist"]
 }

@@ -22,7 +22,6 @@ router.post('/signUp' ,
      ],
     userController.signUp)
 router.put('/updateProfile/:userId', 
-    params(userId).isInt().withMessage("Enter a valid user Id"),
     check("name").notEmpty().withMessage("Name is required"),
     check("email").isEmail().withMessage("Valid email is required"),
     userController.updateUser

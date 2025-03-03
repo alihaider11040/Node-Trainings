@@ -7,7 +7,7 @@ export interface IUser {
     id: number,
     name: String,
     email: String, 
-    password: String,
+    hashed_password: String,
     role : Role
 }
 
