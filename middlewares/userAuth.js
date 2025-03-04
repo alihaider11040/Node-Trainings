@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken')
 
 
-module.exports = function validateJWT(req,res ,next){
+const  validateJWT= (req,res ,next)=>{
     
     
  const token = req.header('Authorization')?.replace('Bearer ', '');
@@ -14,10 +14,12 @@ module.exports = function validateJWT(req,res ,next){
 
   try {
     // Verify token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || "secret");
     req.user = decoded; // Attach user data to the request object
     next();
   } catch (error) {
     res.status(401).json({ message: 'Token is not valid' });
   }
 };
+
+module.exports = validateJWT
