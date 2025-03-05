@@ -97,7 +97,7 @@ exports.deleteProject = async (request, res, next) => {
     try {
         const { projectId } = request.params;
         await projectService.deleteProject(Number(projectId));
-        res.status(200).json({ message: "Task deleted successfully" });
+        res.status(200).json({ message: "Project deleted successfully" });
     } catch (error) {
         next(error);
     }

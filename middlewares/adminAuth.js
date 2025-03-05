@@ -1,10 +1,12 @@
 const { error } = require("console")
 
-module.exports = function (req,res, next){
-    if (req.user.role == 'Admin'){
+const validateAdmin = function (req,res, next){
+    if (req.user.role == 'ADMIN'){
         return next()
-
     }else{
-        throw new error('Invalid User')
+    res.status(401).json({ message: 'Token is not valid' });
+
     }
 } 
+
+module.exports = validateAdmin
